@@ -1,4 +1,4 @@
-# <p align=center>Therania web app</p>
+# **Therania web app**
 
 This will be the official documentation and design ideas of my new pet
 project: therania.
@@ -25,25 +25,39 @@ websites, but in Egypt, I don’t think there are online therapy services,
 so if I decide to go commercial, the main idea would be to make therapy
 accessible from everywhere to anyone and with an affordable price.
 
-# Table of contents
-
-1.  Competitors
-
-2.  Feature list
-
-3.  Feature implementation details
+# _Table of contents_
 
 4.  Technology stack
 
-5.  idk
+5.  Competitors
 
-<!-- -->
+6.  Feature list
 
-# 1. competitors
+7.  Feature implementation details
 
-<!-- -->
+8.  idk
 
-## 1. betterhelp.com
+# _1. Technology stack_
+
+this is a list of the tech stack used on the website, this list will be updated when future packages or libraries are used.
+
+## a. Front-end:
+
+1. Blazor
+
+## b. Back-end:
+
+1. ASP.NET Core
+2. Web Api
+3. EF Core
+
+## c. Database:
+
+1. MS SQL Server
+
+# _2. competitors_
+
+## a. betterhelp.com
 
 the website’s business model is simple:
 
@@ -77,10 +91,10 @@ the website’s business model is simple:
 
 <!-- -->
 
-# 2. Feature list
+# _3. Feature list_
 
 This section lists the features of the website, I’m not going to
-implement them all immediately, so im going to sort them by priority:
+implement them all immediately, so some of them will be left for future implementations.
 
 ## <u>As a user:</u>
 
