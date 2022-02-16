@@ -25,19 +25,19 @@ websites, but in Egypt, I don’t think there are online therapy services,
 so if I decide to go commercial, the main idea would be to make therapy
 accessible from everywhere to anyone and with an affordable price.
 
-# _Table of contents_
+# Table of contents
 
-4.  Technology stack
+1.  Technology stack
 
-5.  Competitors
+2.  Competitors
 
-6.  Feature list
+3.  Feature list
 
-7.  Feature implementation details
+4.  Feature implementation details
 
-8.  idk
+5.  Tech stack discussion
 
-# _1. Technology stack_
+# 1. Technology stack
 
 this is a list of the tech stack used on the website, this list will be updated when future packages or libraries are used.
 
@@ -55,7 +55,21 @@ this is a list of the tech stack used on the website, this list will be updated 
 
 1. MS SQL Server
 
-# _2. competitors_
+# 2. Tech stack discussion
+
+## front-end framework decision
+
+for the fronend I chose blazor WASM.
+
+### why not a javascript framework (react, vue, angular)?
+
+Although a javascript framework is faster and more mature in terms of ecosystem and libraries, but I just finished learning C# and I want this project to improve my C# skills, so I'll do both front and backend with C#
+
+### blazor WASM vs balzor server
+
+I was going to use blazor server, but it is not a true SPA app (it complies c# code on the server and uses a signalR connection to update the UI),it has higher latency because every user interaction involves a network hop, and scaling is bad because as users increase, you need more server resources(ram, cpu) to maintain each client's signalR connection, so I'll stick to blazor WASM
+
+# 3. competitors
 
 ## a. betterhelp.com
 
@@ -91,7 +105,7 @@ the website’s business model is simple:
 
 <!-- -->
 
-# _3. Feature list_
+# 4. Feature list
 
 This section lists the features of the website, I’m not going to
 implement them all immediately, so some of them will be left for future implementations.
