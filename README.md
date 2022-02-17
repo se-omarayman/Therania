@@ -65,7 +65,7 @@ this is a list of the tech stack used on the website, this list will be updated 
     │   ├───src
     │   │   └───TheraniaBack
     │   └───tests
-	│		└───TheraniaBack.Tests
+    │	│   └───TheraniaBack.Tests
     └───TheraniaFront
         ├───src
         │   └───TheraniaFront
