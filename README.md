@@ -29,13 +29,15 @@ accessible from everywhere to anyone and with an affordable price.
 
 1.  Technology stack
 
-2.  Competitors
+2.  folder structure/navigation
 
-3.  Feature list
+3.  Tech stack discussion
 
-4.  Feature implementation details
+4.  Inspiration
 
-5.  Tech stack discussion
+5.  Feature list
+
+6.  Feature implementation details
 
 # 1. Technology stack
 
@@ -55,7 +57,24 @@ this is a list of the tech stack used on the website, this list will be updated 
 
 1. MS SQL Server
 
-# 2. Tech stack discussion
+# 2. Folder structure/navigation
+
+```
+└───Therania
+    ├───TheraniaBack
+    │   ├───src
+    │   │   └───TheraniaBack
+    │   └───tests
+	│		└───TheraniaBack.Tests
+    └───TheraniaFront
+        ├───src
+        │   └───TheraniaFront
+        └───tests
+            └───TheraniaFront.Tests
+
+```
+
+# 3. Tech stack discussion
 
 ## front-end framework decision
 
@@ -69,43 +88,11 @@ Although a javascript framework is faster and more mature in terms of ecosystem 
 
 I was going to use blazor server, but it is not a true SPA app (it complies c# code on the server and uses a signalR connection to update the UI),it has higher latency because every user interaction involves a network hop, and scaling is bad because as users increase, you need more server resources(ram, cpu) to maintain each client's signalR connection, so I'll stick to blazor WASM
 
-# 3. competitors
+# 4. Inspiration
 
 ## a. betterhelp.com
 
-the website’s business model is simple:
-
-1.  when you sign up, you answer a survey with many questions about your
-    mental health status, your age, gender, religion, etc…
-
-2.  after signing up, a therapist is assigned to you, the website has
-    over 20k therapists, so you can register to the website as a patient
-    or a therapist.
-
-3.  As part of the signing up, you pay a monthly fee of 60$ to 90$.
-
-4.  You can communicate to the therapist in various ways: text
-    messaging, live chatting, audio call, video call.
-
-5.  You can request a therapist change if you don’t like the current
-    one.
-
-6.  You can view all therapists
-
-7.  Each therapist has his own page, that includes about me,
-    specialities, experience, licenses, reviews, and a work with me
-    button.
-
-8.  You can choose to work with a specific therapist, when you do, you
-    answer the same survey when you sign up, but you get assigned to the
-    therapist that you chose.
-
-9.  The account creation process is not possible without the 60$ payment
-    (you have to pay to have an account).
-
-<!-- -->
-
-# 4. Feature list
+# 5. Feature list
 
 This section lists the features of the website, I’m not going to
 implement them all immediately, so some of them will be left for future implementations.
