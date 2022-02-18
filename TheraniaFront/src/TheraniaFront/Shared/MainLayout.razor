@@ -7,17 +7,8 @@
 
 <MudLayout>
     <AppBar/>
+
     <MudMainContent>
-        <MudContainer>@Body</MudContainer>
+        @Body
     </MudMainContent>
 </MudLayout>
-
-@code {
-    bool _drawerOpen;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-
-}
