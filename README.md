@@ -116,8 +116,7 @@ implement them all immediately, so some of them will be left for future implemen
 
 -   A payment method has to be added before booking a therapist
 
--   The total hours of therapy is added at the end of each month and
-    taken from the credit card.
+-   the user pays a monthly subscribtion fee if he wants to book a therapist
 
 ### 2. <u>Home page:</u>
 
@@ -139,14 +138,12 @@ implement them all immediately, so some of them will be left for future implemen
 
 -   Win include their specialization
 
--   Will include their billing price
-
 -   Will include reviews from other users
 
 ### 4. <u>All therapists page:</u>
 
 -   Will include a list of all therapists, with the ability to search
-    and filter by: name, price/hr, specialization, country.
+    and filter by: name, specialization, country.
 
 -   will have the ability to choose a therapist which redirects you to
     their page.
@@ -160,7 +157,7 @@ you to the therapists sign up page.
 
 -   will include fields for: email, first name, last name, gender, age,
     specialization, education, licenses and certificates, profile image,
-    about me, price/hour, credit card info for money transfer in case
+    about me, credit card info for money transfer in case
     someone booked them,
 
 -   then they will be told that their account is in review because a
@@ -172,10 +169,6 @@ you to the therapists sign up page.
 -   Once they accept it, the user can chat with the therapist to
     schedule time for meetings.
 
--   Meetings start up counting the hourly rate of the therapist
+-   When the meeting is done, the time of the meeting is saved in hours
 
--   When the meeting is done, the time of the meeting is saved
-
--   The total meeting times are summed at the end of the month and
-    multiplied by the therapist’s hourly rate, then it is transferred
-    from the user to the therapist’s account
+-   the therapist gets a percentage of the subscription fees that the users that booked him payed (if 5 users book with the therapist, he gets a percentage for each user)
