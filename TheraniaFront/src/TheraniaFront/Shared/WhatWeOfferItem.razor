@@ -1,0 +1,38 @@
+<MudItem xs="12" sm="6" md="4">
+    <MudCard Elevation="25" Class="rounded-lg pb-4">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5" Align="Align.Center">@Title</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudList Class="mx-auto" Style="width:300px;">
+                <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+                    @FeatureText1
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+                    @FeatureText2
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+                    @FeatureText3
+                </MudListItem>
+            </MudList>
+        </MudCardContent>
+    </MudCard>
+</MudItem>
+
+@code
+{
+    [Parameter]
+    public string Title { get; set; } = "placeholder title";
+
+    [Parameter]
+    public string? FeatureText1 { get; set; }
+
+    [Parameter]
+   public string? FeatureText2 { get; set; }
+
+    [Parameter]
+   public string? FeatureText3 { get; set; }
+
+}
