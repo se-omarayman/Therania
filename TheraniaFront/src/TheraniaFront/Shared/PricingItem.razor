@@ -1,0 +1,30 @@
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="25" Class="rounded-lg pb-4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5" Align="Align.Center">@Title</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <div class="d-flex justify-center">
+                        <MudText Typo="Typo.h3">$@Price </MudText>
+                        <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Secondary">@Duration</MudText>
+                    </div>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-center">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Start Now</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+@code
+{
+    [Parameter]
+    public string Title { get; set; } = "placeholder text";
+
+    [Parameter]
+    public int Price { get; set; } = 5;
+
+    [Parameter]
+    public string Duration { get; set; } = "/Monthly";
+}
