@@ -1,4 +1,4 @@
-# **Therania web app**
+# **Therania**
 
 This will be the official documentation and design ideas of my new pet
 project: therania.
@@ -43,19 +43,18 @@ accessible from everywhere to anyone and with an affordable price.
 
 this is a list of the tech stack used on the website, this list will be updated when future packages or libraries are used.
 
-## a. Front-end:
+1. ASP.Net Core MVC
+2. EF Core
+3. MS SQL Server
 
-1. Blazor
+Note: At first, I decided to separate the project into 2 projects: frontend and backend.
+The frontend was going to be made with Blazor WASM, the backend with asp.net core, Web Api, ef core.
+Then I realized that doing SPA with a Api backend will add unnecessary complexity to the project because:
 
-## b. Back-end:
+1. the backend api will only serve the frontend design, no mobile app or any other design, so combining back and front is better
+2. I won't use any complicated SPA javascript features, so doing spa will bloat the project
 
-1. ASP.NET Core
-2. Web Api
-3. EF Core
-
-## c. Database:
-
-1. MS SQL Server
+So, for this project, I will be using asp.net core mvc.
 
 # 2. Folder structure/navigation
 
