@@ -69,7 +69,7 @@ So, for this project, I will be using asp.net core mvc.
         ├───src
         │   └───TheraniaFront
         └───tests
-            └───TheraniaFront.Tests
+            └───TheraniaFront.Tests.
 
 ```
 
