@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using Therania.Data;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+builder.Services.AddDbContext<AppDbContext>(options =>  options.UseSqlServer(connString));
 
 var app = builder.Build();
 
