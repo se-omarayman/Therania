@@ -9,7 +9,7 @@ something generic like an ecommerce site or a todo app.
 
 My late aunt Rania Shokry was a therapist, she was pretty successful and
 she did many workshops and other stuff related to mental health care, so
-I decided to make a full blown web therapy website dedicated to her.
+I decided to make a full web therapy website dedicated to her.
 
 the app will start with some basic functionality, and will grow as I get
 more ideas, this documentation will list everything related to the web
@@ -46,6 +46,8 @@ this is a list of the tech stack used on the website, this list will be updated 
 1. ASP.Net Core MVC
 2. EF Core
 3. MS SQL Server
+4. Identity for authentication
+5. xUnit for unit tests
 
 Note: At first, I decided to separate the project into 2 projects: frontend and backend.
 The frontend was going to be made with Blazor WASM, the backend with asp.net core, Web Api, ef core.
@@ -60,32 +62,21 @@ So, for this project, I will be using asp.net core mvc.
 
 ```
 └───Therania
-    ├───TheraniaBack
-    │   ├───src
-    │   │   └───TheraniaBack
-    │   └───tests
-    │	│   └───TheraniaBack.Tests
-    └───TheraniaFront
-        ├───src
-        │   └───TheraniaFront
-        └───tests
-            └───TheraniaFront.Tests.
+    ├───src
+    │   └───Therania
+    │       ├───Controllers
+    │       ├───Data
+    │       ├───Migrations
+    │       ├───Models
+    │       ├───Properties
+    │       ├───Views
+    │       └───wwwroot
+    └───tests
+        └───TheraniaTests
 
 ```
 
 # 3. Tech stack discussion
-
-## front-end framework decision
-
-for the fronend I chose blazor WASM.
-
-### why not a javascript framework (react, vue, angular)?
-
-Although a javascript framework is faster and more mature in terms of ecosystem and libraries, but I just finished learning C# and I want this project to improve my C# skills, so I'll do both front and backend with C#
-
-### blazor WASM vs balzor server
-
-I was going to use blazor server, but it is not a true SPA app (it complies c# code on the server and uses a signalR connection to update the UI),it has higher latency because every user interaction involves a network hop, and scaling is bad because as users increase, you need more server resources(ram, cpu) to maintain each client's signalR connection, so I'll stick to blazor WASM
 
 # 4. Inspiration
 
