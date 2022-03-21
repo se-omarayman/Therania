@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace TheraniaTests;
+namespace Therania.Tests;
 
 public class UnitTest1
 {

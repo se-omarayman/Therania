@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Therania", "src\Therania\Th
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E01C71FD-54DF-476C-BB53-3DC61901E55B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheraniaTests", "tests\TheraniaTests\TheraniaTests.csproj", "{12D8A624-C8B6-45B5-AD98-56A1AFE1DF50}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Therania.Tests", "tests\Therania.Tests\Therania.Tests.csproj", "{12D8A624-C8B6-45B5-AD98-56A1AFE1DF50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
