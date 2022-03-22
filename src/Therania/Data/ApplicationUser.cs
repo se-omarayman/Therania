@@ -4,5 +4,4 @@ namespace Therania.Data;
 
 public class ApplicationUser: IdentityUser
 {
-    
 }

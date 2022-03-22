@@ -10,4 +10,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<Testing> Testings { get; set; }
+    public DbSet<TherapistUser> TherapistUsers { get; set; }
+    public DbSet<PatientUser> PatientUsers { get; set; }
 }

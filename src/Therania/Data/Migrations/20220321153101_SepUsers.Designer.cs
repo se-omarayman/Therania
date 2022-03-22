@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Therania.Data;
 
@@ -11,9 +12,10 @@ using Therania.Data;
 namespace Therania.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220321153101_SepUsers")]
+    partial class SepUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,16 +250,6 @@ namespace Therania.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Testings");
-                });
-
-            modelBuilder.Entity("Therania.Data.PatientUser", b =>
-                {
-                    b.HasBaseType("Therania.Data.ApplicationUser");
-
-                    b.Property<bool>("IsPatient")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("PatientUser");
                 });
 
             modelBuilder.Entity("Therania.Data.TherapistUser", b =>

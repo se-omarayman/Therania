@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Therania.Data;
 
@@ -11,9 +12,10 @@ using Therania.Data;
 namespace Therania.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220321140440_SeparatedUsers")]
+    partial class SeparatedUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,10 +173,6 @@ namespace Therania.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -226,8 +224,6 @@ namespace Therania.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("Therania.Data.Testing", b =>
@@ -248,26 +244,6 @@ namespace Therania.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Testings");
-                });
-
-            modelBuilder.Entity("Therania.Data.PatientUser", b =>
-                {
-                    b.HasBaseType("Therania.Data.ApplicationUser");
-
-                    b.Property<bool>("IsPatient")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("PatientUser");
-                });
-
-            modelBuilder.Entity("Therania.Data.TherapistUser", b =>
-                {
-                    b.HasBaseType("Therania.Data.ApplicationUser");
-
-                    b.Property<bool>("IsTherapist")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("TherapistUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
