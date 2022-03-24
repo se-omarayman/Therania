@@ -252,14 +252,14 @@ namespace Therania.Migrations
                     b.ToTable("Testings");
                 });
 
-            modelBuilder.Entity("Therania.Data.TherapistUser", b =>
+            modelBuilder.Entity("Therania.Data.Therapist", b =>
                 {
                     b.HasBaseType("Therania.Data.ApplicationUser");
 
                     b.Property<bool>("IsTherapist")
                         .HasColumnType("bit");
 
-                    b.HasDiscriminator().HasValue("TherapistUser");
+                    b.HasDiscriminator().HasValue("Therapist");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

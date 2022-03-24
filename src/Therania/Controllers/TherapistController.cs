@@ -5,32 +5,31 @@ using Therania.Models;
 
 namespace Therania.Controllers;
 
-public class AddUsersController : Controller
+public class TherapistController : Controller
 {
-    [BindProperty]
-    public AddUsersViewModel Input { get; set; }
+    // [BindProperty]
+    // public AddUsersViewModel Input { get; set; }
     
     private readonly CreateUserService _service;
     private readonly AppDbContext _context;
-    public AddUsersController(CreateUserService service,AppDbContext context)
+    public TherapistController(CreateUserService service,AppDbContext context)
     {
         _service = service;
         _context = context;
     }
     // GET
-    public IActionResult Index()
+    public IActionResult AddTherapist()
     {
-        Input = new();
-        return View(Input);
+        return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddTherapist()
+    public async Task<IActionResult> AddTherapist(AddUsersViewModel model)
     {
-        var therapistUser = Input.ToTherapist();
+        var therapistUser = model.ToTherapist();
         _context.Add(therapistUser);
         await _context.SaveChangesAsync();
-        return View("Index");
+        return View();
     }
     
     // public IActionResult AddPatient()

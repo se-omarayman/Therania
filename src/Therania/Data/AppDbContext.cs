@@ -9,7 +9,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public DbSet<Testing> Testings { get; set; }
-    public DbSet<TherapistUser> TherapistUsers { get; set; }
-    public DbSet<PatientUser> PatientUsers { get; set; }
+    public DbSet<Testing> Testings => Set<Testing>();
+    public DbSet<Therapist> Therapist => Set<Therapist>();
+    public DbSet<Patient> Patient => Set<Patient>();
 }

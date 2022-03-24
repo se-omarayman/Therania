@@ -247,27 +247,21 @@ namespace Therania.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Testings");
+                    b.ToTable("Testings", (string)null);
                 });
 
-            modelBuilder.Entity("Therania.Data.PatientUser", b =>
+            modelBuilder.Entity("Therania.Data.Patient", b =>
                 {
                     b.HasBaseType("Therania.Data.ApplicationUser");
 
-                    b.Property<bool>("IsPatient")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("PatientUser");
+                    b.HasDiscriminator().HasValue("Patient");
                 });
 
-            modelBuilder.Entity("Therania.Data.TherapistUser", b =>
+            modelBuilder.Entity("Therania.Data.Therapist", b =>
                 {
                     b.HasBaseType("Therania.Data.ApplicationUser");
 
-                    b.Property<bool>("IsTherapist")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("TherapistUser");
+                    b.HasDiscriminator().HasValue("Therapist");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

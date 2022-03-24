@@ -12,8 +12,8 @@ using Therania.Data;
 namespace Therania.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220321153513_SepUsers2")]
-    partial class SepUsers2
+    [Migration("20220324083601_RemovedUnusedFields2")]
+    partial class RemovedUnusedFields2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -256,18 +256,12 @@ namespace Therania.Migrations
                 {
                     b.HasBaseType("Therania.Data.ApplicationUser");
 
-                    b.Property<bool>("IsPatient")
-                        .HasColumnType("bit");
-
                     b.HasDiscriminator().HasValue("Patient");
                 });
 
             modelBuilder.Entity("Therania.Data.Therapist", b =>
                 {
                     b.HasBaseType("Therania.Data.ApplicationUser");
-
-                    b.Property<bool>("IsTherapist")
-                        .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("Therapist");
                 });

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
@@ -22,20 +23,20 @@ using Therania.Data;
 
 namespace Therania.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class RegisterTherapistModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserStore<ApplicationUser> _userStore;
-        private readonly IUserEmailStore<ApplicationUser> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly SignInManager<Therapist> _signInManager;
+        private readonly UserManager<Therapist> _userManager;
+        private readonly IUserStore<Therapist> _userStore;
+        private readonly IUserEmailStore<Therapist> _emailStore;
+        private readonly ILogger<RegisterTherapistModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            IUserStore<ApplicationUser> userStore,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
+        public RegisterTherapistModel(
+            UserManager<Therapist> userManager,
+            IUserStore<Therapist> userStore,
+            SignInManager<Therapist> signInManager,
+            ILogger<RegisterTherapistModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -65,39 +66,64 @@ namespace Therania.Areas.Identity.Pages.Account
         /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Full Name")]
+            public string FullName { get; set; }
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+            [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Age")]
+            public DateOnly Age { get; set; }
+            
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "License Type")]
+            public string LicenseType { get; set; }
+            
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "License Number")]
+            public string LicenseNumber { get; set; }
+            
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Country")]
+            public string Country { get; set; }
+            
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Governorate")]
+            public string Governorate { get; set; }
+            
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Mobile Number")]
+            public string MobileNumber { get; set; }
+            
+            [Required]
+            [DataType(DataType.Upload)]
+            [Display(Name = "Profile Picture")]
+            public string ProfilePicture { get; set; }
         }
 
 
@@ -122,6 +148,19 @@ namespace Therania.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    var claims = new List<Claim>();
+                    var fullNameClaim = new Claim("FullName", Input.FullName);
+                    var age = new Claim("Age", Input.Age.ToString());
+                    claims.Add(fullNameClaim);
+                    await _userManager.AddClaimAsync(user, new Claim("FullName", Input.FullName));
+                    await _userManager.AddClaimAsync(user, new Claim("Age", Input.Age.ToString()));
+                    await _userManager.AddClaimAsync(user, new Claim("LicenseType", Input.LicenseType));
+                    await _userManager.AddClaimAsync(user, new Claim("LicenseNumber", Input.LicenseNumber));
+                    await _userManager.AddClaimAsync(user, new Claim("Country", Input.Country));
+                    await _userManager.AddClaimAsync(user, new Claim("Governorate", Input.Governorate));
+                    await _userManager.AddClaimAsync(user, new Claim("MobileNumber", Input.MobileNumber));
+                    await _userManager.AddClaimAsync(user, new Claim("ProfilePicture", Input.ProfilePicture));
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -155,27 +194,27 @@ namespace Therania.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private ApplicationUser CreateUser()
+        private Therapist CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<ApplicationUser>();
+                return Activator.CreateInstance<Therapist>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
-                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Therapist)}'. " +
+                    $"Ensure that '{nameof(Therapist)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<ApplicationUser> GetEmailStore()
+        private IUserEmailStore<Therapist> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<ApplicationUser>)_userStore;
+            return (IUserEmailStore<Therapist>)_userStore;
         }
     }
 }

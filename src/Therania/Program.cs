@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.EntityFrameworkCore;
 using Therania.Data;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddIdentityCore<Therapist>().AddSignInManager<SignInManager<Therapist>>()
+    .AddEntityFrameworkStores<AppDbContext>();
+// builder.Services.AddSecondIdentity<Therapist>();
 
 var app = builder.Build();
 

@@ -15,9 +15,9 @@ public class AddUsersViewModel
     [DataType(DataType.Password)]
     public string? ConfirmPassword { get; set; }
 
-    public TherapistUser ToTherapist()
+    public Therapist ToTherapist()
     {
-        return new TherapistUser
+        return new Therapist
         {
             Email = Email,
             PasswordHash = Password
