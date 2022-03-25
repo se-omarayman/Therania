@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<CreateUserService>();
 
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -18,7 +17,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddIdentityCore<Therapist>().AddSignInManager<SignInManager<Therapist>>()
+builder.Services.AddIdentityCore<Therapist>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddSignInManager<SignInManager<Therapist>>()
     .AddEntityFrameworkStores<AppDbContext>();
 // builder.Services.AddSecondIdentity<Therapist>();
 
