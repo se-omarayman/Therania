@@ -3,23 +3,12 @@
 
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 using Therania.Data;
 using Therania.Models;
 
@@ -52,6 +41,7 @@ namespace Therania.Areas.Identity.Pages.Account
         [BindProperty] public TherapistInputModel Input { get; set; }
         public string ReturnUrl { get; set; }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -64,19 +54,19 @@ namespace Therania.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var therapist = CreateTherapist();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userStore.SetUserNameAsync(therapist, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(therapist, Input.Email, CancellationToken.None);
+                var result = await _userManager.CreateAsync(therapist, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await AddTherapistClaims(user);
+                    await AddTherapistClaims(therapist);
 
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    var userId = await _userManager.GetUserIdAsync(therapist);
                     // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     // var callbackUrl = Url.Page(
@@ -92,7 +82,7 @@ namespace Therania.Areas.Identity.Pages.Account
                     // {
                     //     return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     // }
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(therapist, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
 
@@ -109,7 +99,7 @@ namespace Therania.Areas.Identity.Pages.Account
         private async Task AddTherapistClaims(Therapist therapist)
         {
             await _userManager.AddClaimAsync(therapist, new Claim("FullName", Input.FullName));
-            await _userManager.AddClaimAsync(therapist, new Claim("Age", Input.Age.ToString()));
+            await _userManager.AddClaimAsync(therapist, new Claim("Age", Input.Age));
             await _userManager.AddClaimAsync(therapist, new Claim("LicenseType", Input.LicenseType));
             await _userManager.AddClaimAsync(therapist, new Claim("LicenseNumber", Input.LicenseNumber));
             await _userManager.AddClaimAsync(therapist, new Claim("Country", Input.Country));
@@ -119,7 +109,7 @@ namespace Therania.Areas.Identity.Pages.Account
         }
 
 
-        private Therapist CreateUser()
+        private Therapist CreateTherapist()
         {
             try
             {

@@ -1,4 +1,6 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Therania.Utilities;
 
 namespace Therania.Models;
 
@@ -29,7 +31,8 @@ namespace Therania.Models;
 
             [Required]
             [DataType(DataType.Date)]
-            [Display(Name = "Age")]
+            [DisplayName("Date of Birth")]
+            [MinimumAge(18)]
             public string Age { get; set; }
 
             [Required]
