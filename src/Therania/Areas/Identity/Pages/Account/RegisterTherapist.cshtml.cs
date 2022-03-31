@@ -9,8 +9,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Therania.Data;
 using Therania.Models;
+using System.IO;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Therania.Areas.Identity.Pages.Account
 {
@@ -22,13 +25,15 @@ namespace Therania.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<Therapist> _emailStore;
         private readonly ILogger<RegisterTherapistModel> _logger;
         private readonly IEmailSender _emailSender;
+        private IWebHostEnvironment _env;
 
         public RegisterTherapistModel(
             UserManager<Therapist> userManager,
             IUserStore<Therapist> userStore,
             SignInManager<Therapist> signInManager,
             ILogger<RegisterTherapistModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -36,9 +41,12 @@ namespace Therania.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _env = env;
         }
 
         [BindProperty] public TherapistInputModel Input { get; set; }
+
+         public List<Country> Countries { get; set; }
         public string ReturnUrl { get; set; }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -46,6 +54,14 @@ namespace Therania.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            await PopulateCountriesObject();
+        }
+
+        private async Task PopulateCountriesObject()
+        {
+            string countriesJson = await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\countries.json");
+            Countries = JsonSerializer.Deserialize<List<Country>>(countriesJson);
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
