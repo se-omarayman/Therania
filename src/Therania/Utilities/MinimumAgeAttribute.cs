@@ -16,7 +16,7 @@ public class MinimumAgeAttribute : ValidationAttribute
     {
         DateTime enteredDate;
         // tries to parse the string input value into a DateTime object
-        if (DateTime.TryParse(value.ToString(), out enteredDate))
+        if (DateTime.TryParse(value?.ToString(), out enteredDate))
         {
             // if the entered date + the minimum age required is less than the current date, return true
             if (enteredDate.AddYears(_minAge) < DateTime.Now) return true;
