@@ -11,7 +11,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
-   builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connString));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connString));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AppDbContext>();
