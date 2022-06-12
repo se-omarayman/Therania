@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Therania.Data;
 using Therania.Models;
 using System.IO;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Therania.Areas.Identity.Pages.Account
@@ -46,7 +47,8 @@ namespace Therania.Areas.Identity.Pages.Account
 
         [BindProperty] public TherapistInputModel Input { get; set; }
 
-         public List<Country> Countries { get; set; }
+        public List<Country> Countries { get; set; }
+        public List<SelectListItem> CountriesSelect { get; set; }
         public string ReturnUrl { get; set; }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -62,11 +64,18 @@ namespace Therania.Areas.Identity.Pages.Account
         {
             string countriesJson = await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\countries.json");
             Countries = JsonSerializer.Deserialize<List<Country>>(countriesJson);
+            CountriesSelect = Countries.ConvertAll(a => new SelectListItem()
+            {
+                Text = a.Name,
+                Value = a.Code,
+                Selected = false
+            });
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
@@ -109,6 +118,7 @@ namespace Therania.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            await PopulateCountriesObject();
             return Page();
         }
 
