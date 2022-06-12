@@ -24,9 +24,4 @@ public class MinimumAgeAttribute : ValidationAttribute
 
         return false;
     }
-
-    // public override string FormatErrorMessage(string name)
-    // {
-    //     return string.Format(ErrorMessage, name, _minAge);
-    // }
 }
