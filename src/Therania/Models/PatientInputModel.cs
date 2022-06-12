@@ -37,8 +37,8 @@ namespace Therania.Models;
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Country")]
-            public string MentalHealthDisease { get; set; }
+            [Display(Name = "Mental Health Diseases")]
+            public string? MentalHealthDisease { get; set; }
 
             [Required]
             [DataType(DataType.Text)]

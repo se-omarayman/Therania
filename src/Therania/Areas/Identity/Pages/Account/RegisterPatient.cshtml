@@ -1,7 +1,7 @@
-﻿@page
-@model RegisterTherapistModel
+@page
+@model RegisterPatientModel
 @{
-    ViewData["Title"] = "Register as a Therapist";
+    ViewData["Title"] = "Register as a Patient";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -55,6 +55,18 @@
             <hr/>
 
             <div class="form-floating mb-3">
+                @Html.DropDownListFor(model => model.Input.MentalHealthDisease, 
+                    Model.MentalHealthDiseases.ConvertAll(a => new SelectListItem()
+                {
+                    Text = a.Name,
+                    Value = a.Name,
+                    Selected = false
+                }),
+                    "choose Mental Condition")
+                <br/>
+                <span asp-validation-for="Input.MentalHealthDisease" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.Governorate" class="form-control" aria-required="true"/>
                 <label asp-for="Input.Governorate"></label>
                 <span asp-validation-for="Input.Governorate" class="text-danger"></span>
@@ -63,16 +75,6 @@
                 <input asp-for="Input.MobileNumber" class="form-control" aria-required="true"/>
                 <label asp-for="Input.MobileNumber"></label>
                 <span asp-validation-for="Input.MobileNumber" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LicenseNumber" class="form-control" aria-required="true"/>
-                <label asp-for="Input.LicenseNumber"></label>
-                <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LicenseType" class="form-control" aria-required="true"/>
-                <label asp-for="Input.LicenseType"></label>
-                <span asp-validation-for="Input.LicenseType" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.ProfilePicture" class="form-control" aria-required="true"/>

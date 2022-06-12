@@ -18,21 +18,21 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Therania.Areas.Identity.Pages.Account
 {
-    public class RegisterTherapistModel : PageModel
+    public class RegisterPatientModel : PageModel
     {
-        private readonly SignInManager<Therapist> _signInManager;
-        private readonly UserManager<Therapist> _userManager;
-        private readonly IUserStore<Therapist> _userStore;
-        private readonly IUserEmailStore<Therapist> _emailStore;
-        private readonly ILogger<RegisterTherapistModel> _logger;
+        private readonly SignInManager<Patient> _signInManager;
+        private readonly UserManager<Patient> _userManager;
+        private readonly IUserStore<Patient> _userStore;
+        private readonly IUserEmailStore<Patient> _emailStore;
+        private readonly ILogger<RegisterPatientModel> _logger;
         private readonly IEmailSender _emailSender;
         private IWebHostEnvironment _env;
 
-        public RegisterTherapistModel(
-            UserManager<Therapist> userManager,
-            IUserStore<Therapist> userStore,
-            SignInManager<Therapist> signInManager,
-            ILogger<RegisterTherapistModel> logger,
+        public RegisterPatientModel(
+            UserManager<Patient> userManager,
+            IUserStore<Patient> userStore,
+            SignInManager<Patient> signInManager,
+            ILogger<RegisterPatientModel> logger,
             IEmailSender emailSender,
             IWebHostEnvironment env)
         {
@@ -45,9 +45,10 @@ namespace Therania.Areas.Identity.Pages.Account
             _env = env;
         }
 
-        [BindProperty] public TherapistInputModel Input { get; set; }
+        [BindProperty] public PatientInputModel Input { get; set; }
 
         public List<Country> Countries { get; set; }
+        public List<MentalHealthDisease> MentalHealthDiseases { get; set; }
         public string ReturnUrl { get; set; }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -57,12 +58,19 @@ namespace Therania.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             await PopulateCountriesObject();
+            await PopulateMentalHealthDiseases();
         }
 
         private async Task PopulateCountriesObject()
         {
             string countriesJson = await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\countries.json");
             Countries = JsonSerializer.Deserialize<List<Country>>(countriesJson);
+        }
+        
+        private async Task PopulateMentalHealthDiseases()
+        {
+            string diseasesJson = await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\mentalHealthDiseases.json");
+            MentalHealthDiseases = JsonSerializer.Deserialize<List<MentalHealthDisease>>(diseasesJson);
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -72,7 +80,7 @@ namespace Therania.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var therapist = CreateTherapist();
+                var therapist = CreatePatient();
 
                 await _userStore.SetUserNameAsync(therapist, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(therapist, Input.Email, CancellationToken.None);
@@ -82,7 +90,7 @@ namespace Therania.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await AddTherapistClaims(therapist);
+                    await AddPatientClaims(therapist);
 
                     var userId = await _userManager.GetUserIdAsync(therapist);
                     // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -112,44 +120,44 @@ namespace Therania.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             await PopulateCountriesObject();
+            await PopulateMentalHealthDiseases();
             return Page();
         }
 
-        private async Task AddTherapistClaims(Therapist therapist)
+        private async Task AddPatientClaims(Patient patient)
         {
-            await _userManager.AddClaimAsync(therapist, new Claim("FullName", Input.FullName));
-            await _userManager.AddClaimAsync(therapist, new Claim("Age", Input.Age));
-            await _userManager.AddClaimAsync(therapist, new Claim("LicenseType", Input.LicenseType));
-            await _userManager.AddClaimAsync(therapist, new Claim("LicenseNumber", Input.LicenseNumber));
-            await _userManager.AddClaimAsync(therapist, new Claim("Country", Input.Country));
-            await _userManager.AddClaimAsync(therapist, new Claim("Governorate", Input.Governorate));
-            await _userManager.AddClaimAsync(therapist, new Claim("MobileNumber", Input.MobileNumber));
-            await _userManager.AddClaimAsync(therapist, new Claim("ProfilePicture", Input.ProfilePicture));
+            await _userManager.AddClaimAsync(patient, new Claim("FullName", Input.FullName));
+            await _userManager.AddClaimAsync(patient, new Claim("Age", Input.Age));
+            await _userManager.AddClaimAsync(patient, new Claim("MentalHealthDisease", Input.MentalHealthDisease));
+            await _userManager.AddClaimAsync(patient, new Claim("Country", Input.Country));
+            await _userManager.AddClaimAsync(patient, new Claim("Governorate", Input.Governorate));
+            await _userManager.AddClaimAsync(patient, new Claim("MobileNumber", Input.MobileNumber));
+            await _userManager.AddClaimAsync(patient, new Claim("ProfilePicture", Input.ProfilePicture));
         }
 
 
-        private Therapist CreateTherapist()
+        private Patient CreatePatient()
         {
             try
             {
-                return Activator.CreateInstance<Therapist>();
+                return Activator.CreateInstance<Patient>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Therapist)}'. " +
-                                                    $"Ensure that '{nameof(Therapist)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Patient)}'. " +
+                                                    $"Ensure that '{nameof(Patient)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                                                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<Therapist> GetEmailStore()
+        private IUserEmailStore<Patient> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
 
-            return (IUserEmailStore<Therapist>) _userStore;
+            return (IUserEmailStore<Patient>) _userStore;
         }
     }
 }

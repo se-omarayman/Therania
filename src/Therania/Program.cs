@@ -20,6 +20,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddIdentityCore<Therapist>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddSignInManager<SignInManager<Therapist>>()
     .AddEntityFrameworkStores<AppDbContext>();
+    
+builder.Services.AddIdentityCore<Patient>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddSignInManager<SignInManager<Patient>>()
+    .AddEntityFrameworkStores<AppDbContext>();
 // builder.Services.AddSecondIdentity<Therapist>();
 
 var app = builder.Build();
