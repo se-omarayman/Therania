@@ -61,38 +61,29 @@ namespace Therania.Areas.Identity.Pages.Account
             await PopulateMentalHealthDiseases();
         }
 
-        private async Task PopulateCountriesObject()
-        {
-            string countriesJson = await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\countries.json");
-            Countries = JsonSerializer.Deserialize<List<Country>>(countriesJson);
-        }
-        
-        private async Task PopulateMentalHealthDiseases()
-        {
-            string diseasesJson = await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\mentalHealthDiseases.json");
-            MentalHealthDiseases = JsonSerializer.Deserialize<List<MentalHealthDisease>>(diseasesJson);
-        }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            // var errors = ModelState.Values.SelectMany(v => v.Errors);
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var therapist = CreatePatient();
+                var userWithSameEmail = await _userManager.FindByEmailAsync(Input.Email);
+                var patient = CreatePatient();
+                await _userStore.SetUserNameAsync(patient, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(patient, Input.Email, CancellationToken.None);
 
-                await _userStore.SetUserNameAsync(therapist, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(therapist, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(therapist, Input.Password);
+
+                var result = await _userManager.CreateAsync(patient, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await AddPatientClaims(therapist);
+                    await AddPatientClaims(patient);
 
-                    var userId = await _userManager.GetUserIdAsync(therapist);
+                    var userId = await _userManager.GetUserIdAsync(patient);
                     // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     // var callbackUrl = Url.Page(
@@ -108,7 +99,7 @@ namespace Therania.Areas.Identity.Pages.Account
                     // {
                     //     return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     // }
-                    await _signInManager.SignInAsync(therapist, isPersistent: false);
+                    await _signInManager.SignInAsync(patient, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
 
@@ -122,6 +113,20 @@ namespace Therania.Areas.Identity.Pages.Account
             await PopulateCountriesObject();
             await PopulateMentalHealthDiseases();
             return Page();
+        }
+
+
+        private async Task PopulateCountriesObject()
+        {
+            string countriesJson = await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\countries.json");
+            Countries = JsonSerializer.Deserialize<List<Country>>(countriesJson);
+        }
+
+        private async Task PopulateMentalHealthDiseases()
+        {
+            string diseasesJson =
+                await System.IO.File.ReadAllTextAsync(_env.WebRootPath + "\\json\\mentalHealthDiseases.json");
+            MentalHealthDiseases = JsonSerializer.Deserialize<List<MentalHealthDisease>>(diseasesJson);
         }
 
         private async Task AddPatientClaims(Patient patient)

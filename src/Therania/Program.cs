@@ -24,7 +24,6 @@ builder.Services.AddIdentityCore<Therapist>(options => options.SignIn.RequireCon
 builder.Services.AddIdentityCore<Patient>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddSignInManager<SignInManager<Patient>>()
     .AddEntityFrameworkStores<AppDbContext>();
-// builder.Services.AddSecondIdentity<Therapist>();
 
 var app = builder.Build();
 

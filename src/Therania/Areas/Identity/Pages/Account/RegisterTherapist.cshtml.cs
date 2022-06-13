@@ -73,6 +73,8 @@ namespace Therania.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var therapist = CreateTherapist();
+                var sameUserId = await _userManager.GetUserIdAsync(therapist);
+                var user = await _userManager.GetUserAsync(User);
 
                 await _userStore.SetUserNameAsync(therapist, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(therapist, Input.Email, CancellationToken.None);
